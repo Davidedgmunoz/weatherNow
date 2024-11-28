@@ -108,9 +108,12 @@ public final class Location: Loadable, LocationProtocol {
             raw: raw,
             api: api,
             onSave: { [weak self] item in
+                guard let self,
+                  self._locations.contains(item)
+                else { return }
                 raw.updateSavedAt()
-                self?._locations.append(item)
-                self?.persistenceManager.save(raw)
+                self._locations.append(item)
+                self.persistenceManager.save(raw)
             },
             onSelect: onSelect
         )
@@ -118,7 +121,12 @@ public final class Location: Loadable, LocationProtocol {
         
     // MARK: - Item
     
-    fileprivate class _Item: Loadable, LocationItem {
+    fileprivate class _Item: Loadable, LocationItem, Equatable {
+        
+        static func == (lhs: Location._Item, rhs: Location._Item) -> Bool {
+            lhs.id == rhs.id
+        }
+        
         private let onSave: ((_Item) -> Void)?
         private let onSelect: ((_Item) -> Void)?
         var raw: API.RAW.Location

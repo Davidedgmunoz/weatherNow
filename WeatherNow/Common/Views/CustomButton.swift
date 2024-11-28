@@ -14,12 +14,12 @@ import UIKit
 class CustomButton: Button {
     
     override init() {
-        _backgroundColor = .white
+        _backgroundColor = Colors.buttonBackgroundColor
         super.init()
         layer.cornerRadius = Sizes.regularCornerRadius
         layer.borderColor = UIColor.systemBlue.cgColor
-        backgroundColor = .white
-        setTitleColor(.black, for: .normal)
+        backgroundColor = _backgroundColor
+        setTitleColor(Colors.buttonTextColor, for: .normal)
         layer.borderWidth = 1
     }
     
