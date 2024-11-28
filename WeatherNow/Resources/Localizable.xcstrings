@@ -1,0 +1,160 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "forecastItem.temperaturesFormat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ / %@ °C"
+          }
+        }
+      }
+    },
+    "locationItem.feelsLike.format" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feels like: %@ °C"
+          }
+        }
+      }
+    },
+    "locationItem.temperature.format" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temp: %@ °C"
+          }
+        }
+      }
+    },
+    "locationItem.weatherDescription.format" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current weather: %@"
+          }
+        }
+      }
+    },
+    "locationList.Title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location List"
+          }
+        }
+      }
+    },
+    "locationRegistration.CityName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "City name"
+          }
+        }
+      }
+    },
+    "locationRegistration.EnterID" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter ID"
+          }
+        }
+      }
+    },
+    "locationRegistration.EnterLatitude" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter Latitude"
+          }
+        }
+      }
+    },
+    "locationRegistration.EnterLongitude" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter Longitude"
+          }
+        }
+      }
+    },
+    "locationRegistration.RegisterLocation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Location"
+          }
+        }
+      }
+    },
+    "locationRegistration.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location Registration"
+          }
+        }
+      }
+    },
+    "locationRegistration.UpdateLocation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update location"
+          }
+        }
+      }
+    },
+    "locationRegistration.updateLocationDesc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After filling up lat and log, pressing search will update the wanted location"
+          }
+        }
+      }
+    },
+    "weatherDetails.descriptionFormat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feels like: %@ %@, Humidity: %@%%"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

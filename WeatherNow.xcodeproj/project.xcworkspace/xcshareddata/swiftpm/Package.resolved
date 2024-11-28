@@ -1,0 +1,15 @@
+{
+  "originHash" : "adbf8053e689f7d220e03449f58d4f3c98a2f0e12b94e5a90480902e013927a9",
+  "pins" : [
+    {
+      "identity" : "loadable",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Davidedgmunoz/Loadable",
+      "state" : {
+        "revision" : "a772f1c0293eb0cea53ed21416c85333792c6fd9",
+        "version" : "0.1.7"
+      }
+    }
+  ],
+  "version" : 3
+}

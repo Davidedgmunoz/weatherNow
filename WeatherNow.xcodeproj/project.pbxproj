@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3B5E8A072CF66E0400F0D628 /* Loadable in Frameworks */ = {isa = PBXBuildFile; productRef = 3B5E8A062CF66E0400F0D628 /* Loadable */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3BC4380C2CF64BDF00A6685A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -33,7 +37,7 @@
 		3BC4381D2CF64BDF00A6685A /* Exceptions for "WeatherNow" folder in "WeatherNow" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Resources/Info.plist,
 			);
 			target = 3BC437F42CF64BDF00A6685A /* WeatherNow */;
 		};
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B5E8A072CF66E0400F0D628 /* Loadable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = WeatherNow;
 			packageProductDependencies = (
+				3B5E8A062CF66E0400F0D628 /* Loadable */,
 			);
 			productName = WeatherNow;
 			productReference = 3BC437F52CF64BDF00A6685A /* WeatherNow.app */;
@@ -208,6 +214,9 @@
 			);
 			mainGroup = 3BC437EC2CF64BDF00A6685A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3B5E8A052CF66DEE00F0D628 /* XCRemoteSwiftPackageReference "Loadable" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BC437F62CF64BDF00A6685A /* Products */;
 			projectDirPath = "";
@@ -291,10 +300,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = V9Z3D7M9XP;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WeatherNow/Info.plist;
+				INFOPLIST_FILE = WeatherNow/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -319,10 +327,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = V9Z3D7M9XP;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WeatherNow/Info.plist;
+				INFOPLIST_FILE = WeatherNow/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -397,6 +404,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -453,6 +461,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -569,6 +578,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3B5E8A052CF66DEE00F0D628 /* XCRemoteSwiftPackageReference "Loadable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Davidedgmunoz/Loadable";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3B5E8A062CF66E0400F0D628 /* Loadable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B5E8A052CF66DEE00F0D628 /* XCRemoteSwiftPackageReference "Loadable" */;
+			productName = Loadable;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3BC437ED2CF64BDF00A6685A /* Project object */;
 }

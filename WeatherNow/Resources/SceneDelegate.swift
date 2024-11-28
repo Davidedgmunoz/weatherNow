@@ -6,17 +6,41 @@
 //
 
 import UIKit
+import Combine
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
+    private var cancellable: AnyCancellable?
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(windowScene: windowScene)
+        
+        // What I’m about to do is not ideal; do not try this at home!
+        // Essentially, I’m going to pre-load the locations here.
+        // We could create a splash screen to handle this in a more common and user-friendly way,
+        // but to keep it simple and avoid over-engineering (probably more than I already am),
+        // I will load it here and then display the screen.
+        // Since it’s in memory, it likely won’t take more than a glimpse of a second.
+        let location = Core.shared.models.location
+        
+        cancellable = location.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink {
+                guard location.state == .didSuccess else { return }
+                let viewController = WeatherDetails.ViewController(
+                    viewModel: WeatherDetails.DefaultViewModel(model: Core.shared.models.location)
+                )
+                let navigation = UINavigationController(rootViewController: viewController)
+                self.window?.rootViewController = navigation
+                self.window?.makeKeyAndVisible()
+                self.cancellable?.cancel()
+            }
+        location.doSync()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
