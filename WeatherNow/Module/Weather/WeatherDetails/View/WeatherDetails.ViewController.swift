@@ -111,7 +111,6 @@ public extension WeatherDetails {
                 addSubview(titleLabel)
                 addSubview(tableView)
                 addSubview(emptyView)
-
             }
             
             fileprivate var emptyView: EmptyView = .init()

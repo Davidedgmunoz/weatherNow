@@ -40,6 +40,10 @@ public extension LocationRegistration {
                     self?.updateUI()
                 }.store(in: &cancellables)
             
+            viewModel.actionPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] in self?.handleAction($0) }
+                .store(in: &cancellables)
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
             _view.addGestureRecognizer(tapGestureRecognizer)
         }
@@ -85,6 +89,20 @@ public extension LocationRegistration {
             viewModel.save()
         }
 
+        private func handleAction(_ action: Action) {
+            switch action {
+            case .didFailToAddLocation:
+                showAlert(title: "Error", message: "locationRegistration.addFailureMessage".localized)
+            case .didAddLocation:
+                showAlert(title: "Success", message: "locationRegistration.addSuccessMessage".localized)
+            }
+        }
+        
+        private func showAlert(title: String, message: String) {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        }
         // MARK: - View
         fileprivate class View: NiblessView {
             override init() {

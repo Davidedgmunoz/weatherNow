@@ -87,6 +87,5 @@ public final class Location: Loadable, LocationProtocol {
             state = .idle
             return nil
         }
-        
     }
 }

@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
+          }
+        }
+      }
+    },
     "forecastItem.temperaturesFormat" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -52,6 +63,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Location List"
+          }
+        }
+      }
+    },
+    "locationRegistration.addFailureMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to add location"
+          }
+        }
+      }
+    },
+    "locationRegistration.addSuccessMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location added successfully"
           }
         }
       }
@@ -140,6 +173,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "After filling up lat and log, pressing search will update the wanted location"
+          }
+        }
+      }
+    },
+    "success" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Success"
           }
         }
       }
