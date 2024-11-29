@@ -49,7 +49,7 @@ public extension API.RAW {
         let visibility: Int?
         let pop: Double?
         let rain: Rain?
-        let sys: Sys
+        let sys: Sys?
         let dtTxt: String
         
         enum CodingKeys: String, CodingKey {

@@ -62,30 +62,61 @@ public final class Location: Loadable, LocationProtocol {
         state = .didSuccess
     }
     
+    public func addUsersLocation(latitude: Double, longitude: Double) {
+        Task {
+            try? await findLocation(
+                latitude: latitude,
+                longitude: longitude,
+                isUsersLocation: true
+            )?.save()
+        }
+    }
+
     public func findLocation(latitude: Double, longitude: Double) async -> LocationItem? {
         guard state != .syncing else { return nil }
         startSyncing()
         do {
-            let result = try await api.getLocation(fromLat: latitude, andLon: longitude)
-            guard var raw = result.first else { return nil }
-            state = .idle
-            return DefaultLocationItem(
-                raw: raw,
-                api: api,
-                onSave: { [weak self] item in
-                    guard let self,
-                          !self._locations.contains(item)
-                    else { return }
-                    raw.updateSavedAt()
-                    self._locations.append(item)
-                    self.persistenceManager.save(raw)
-                    notifyDataDidChanged()
-                },
-                onSelect: onSelect
+            let item = try await findLocation(
+                latitude: latitude,
+                longitude: longitude,
+                isUsersLocation: false
             )
+            state = .idle
+            return item
         } catch {
             state = .idle
             return nil
         }
+    }
+    
+    private func findLocation(
+        latitude: Double, longitude: Double, isUsersLocation: Bool
+    ) async throws  -> LocationItem? {
+        let result = try await api.getLocation(fromLat: latitude, andLon: longitude)
+        guard var raw = result.first else { return nil }
+        return DefaultLocationItem(
+            raw: raw,
+            api: api,
+            onSave: { [weak self] item in
+                guard let self,
+                      !self._locations.contains(item)
+                else { return }
+                raw.updateSavedAt()
+                if isUsersLocation {
+                    raw.markAsUsersLocation()
+                    if self._locations.first?.isUserLocation ?? false {
+                        self._locations.removeFirst()
+                    }
+                    self._locations.insert(item, at: 0)
+                } else {
+                    self._locations.append(item)
+                }
+                
+                self.persistenceManager.save(raw)
+                notifyDataDidChanged()
+            },
+            onSelect: onSelect
+        )
+
     }
 }

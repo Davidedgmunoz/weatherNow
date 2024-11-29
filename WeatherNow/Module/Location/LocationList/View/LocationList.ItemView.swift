@@ -108,7 +108,19 @@ public extension LocationList {
         private func updateUI() {
             guard let viewModel else { return }
             activityView.isHidden = viewModel.state != .syncing
-            nameLabel.text = viewModel.name
+            if viewModel.isUsersLocation {
+                let text = viewModel.name
+                let attachment = NSTextAttachment()
+                attachment.image = UIImage(systemName: "location.circle.fill")
+                attachment.bounds = CGRect(x: 0, y: -2, width: 20, height: 20)
+                let attributedString = NSMutableAttributedString(string: text)
+                let iconString = NSAttributedString(attachment: attachment)
+                attributedString.append(iconString)
+                nameLabel.attributedText = attributedString
+            } else {
+                nameLabel.text = viewModel.name
+            }
+
             temperatureLabel.text = viewModel.temperature
             realFeelLabel.text = viewModel.realFeel
             backgroundColor = viewModel.isSelected ? .orange.withAlphaComponent(0.2) : .white

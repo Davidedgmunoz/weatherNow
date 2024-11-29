@@ -15,9 +15,10 @@ public extension API.RAW {
         let latitude: Double
         let longitude: Double
         let country: String
-
+        
         // This are cread at saving time
         var savedAt: Date?
+        var isUsersLocation: Bool? = false
         
         enum CodingKeys: String, CodingKey {
             case name
@@ -26,10 +27,15 @@ public extension API.RAW {
             case longitude = "lon"
             case country
             case savedAt
+            case isUsersLocation = "isUsersLocation"
         }
         
         mutating func updateSavedAt() {
             savedAt = .now
+        }
+        
+        mutating func markAsUsersLocation() {
+            isUsersLocation = true
         }
     }
 }

@@ -26,11 +26,19 @@ public extension WeatherDetails {
     // MARK: - Default
     final class DefaultViewModel: LoadableProxy, ViewModel {
         let model: LocationProtocol
-        init(model: LocationProtocol) {
+        let locationManager: LocationManager
+        init(
+            model: LocationProtocol,
+            locationManager: LocationManager
+        ) {
+            self.locationManager = locationManager
             self.model = model
             super.init()
+            
+            handleLocations()
             updateLocation()
         }
+
         public var actionPublisher: AnyPublisher<Action, Never> {
             actionSubject.eraseToAnyPublisher()
         }
@@ -39,9 +47,10 @@ public extension WeatherDetails {
         public var forecastItems: [any ForecastItemViewModel] = []
         public var headerViewModel: (any HeaderViewModel)?
 
-        private var locationCancellable: AnyCancellable?
+        private var cancellables: Set<AnyCancellable> = []
         private var currentLocation: LocationItem?
         
+        // MARK: - Overrides
         public override func proxyDidChange() {
             populate()
         }
@@ -59,21 +68,35 @@ public extension WeatherDetails {
         }
         // MARK: - Private
         
+        private func handleLocations() {
+            model.objectWillChange.sink { [weak self] in
+                self?.updateLocation()
+            }.store(in: &cancellables)
+            locationManager.locationPublisher
+                .sink { [weak self] in
+                    self?.model.addUsersLocation(
+                        latitude: $0.coordinate.latitude,
+                        longitude: $0.coordinate.longitude
+                    )
+                }.store(in: &cancellables)
+            if locationManager.status == .notDetermined {
+                locationManager.requestLocationPermission()
+            } else if locationManager.status == .authorizedAlways || locationManager.status == .authorizedWhenInUse {
+                locationManager.requestLocation()
+            }
+
+        }
         private func updateLocation() {
             if let selectedLocation = model.locations.first(where: { $0.selected }) {
                 Logger.model.log(message: "Selected location: \(selectedLocation)" , tagging: className)
                 currentLocation = selectedLocation
             } else if let firstLocation = model.locations.first {
                 currentLocation = firstLocation
-            } else {
-                // TODO: - Add gps getting! :P
             }
             
             if let currentLocation {
                 self.loadable = currentLocation
                 currentLocation.syncIfNeeded()
-            } else {
-                // Notify no location was able to fetch
             }
         }
         

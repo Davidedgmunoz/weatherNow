@@ -55,7 +55,7 @@ public extension API.RAW {
         }
         
         struct Sys: Decodable {
-            let country: String
+            let country: String?
             let sunrise: Int
             let sunset: Int
             
@@ -74,7 +74,7 @@ public extension API.RAW {
         let wind: Wind
         let clouds: Clouds
         let dt: Int
-        let sys: Sys
+        let sys: Sys?
         let timezone: Int
         let id: Int
         let name: String

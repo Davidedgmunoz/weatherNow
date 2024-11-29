@@ -33,7 +33,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .sink {
                 guard location.state == .didSuccess else { return }
                 let viewController = WeatherDetails.ViewController(
-                    viewModel: WeatherDetails.DefaultViewModel(model: Core.shared.models.location)
+                    viewModel: WeatherDetails.DefaultViewModel(
+                        model: Core.shared.models.location,
+                        locationManager: Core.shared.models.locationManager
+                    )
                 )
                 let navigation = UINavigationController(rootViewController: viewController)
                 self.window?.rootViewController = navigation

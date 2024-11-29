@@ -14,6 +14,7 @@ public protocol LocationProtocol: LoadableProtocol {
     var locations: [LocationItem] { get }
     
     func findLocation(latitude: Double, longitude: Double) async -> LocationItem?
+    func addUsersLocation(latitude: Double, longitude: Double)
 }
 
 public protocol LocationItem: LoadableProtocol {
@@ -25,6 +26,7 @@ public protocol LocationItem: LoadableProtocol {
     var weather: WeatherItem? { get }
     var forecast: [WeatherItem] { get }
     var selected: Bool { get }
+    var isUserLocation: Bool { get }
     
     func select()
     func save()

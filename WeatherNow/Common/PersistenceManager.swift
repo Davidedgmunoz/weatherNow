@@ -27,7 +27,16 @@ public final class UserDefaultsPersistenceManager: Loadable,  LocationPersistenc
     private let key: String = "weather_now_locations"
     
     public func save(_ location: API.RAW.Location) {
-        items.append(location)
+        // Special treatment, always the first
+        if location.isUsersLocation ?? false {
+            if items.first?.isUsersLocation ?? false {
+                items.removeFirst()
+            }
+            items.insert(location, at: 0)
+        } else {
+            items.append(location)
+        }
+
         let jsonData = try? JSONEncoder().encode(items)
         Logger.model.log(
             message: "Saving data: \(String(data: jsonData!, encoding: .utf8)!)",
@@ -43,7 +52,6 @@ public final class UserDefaultsPersistenceManager: Loadable,  LocationPersistenc
     }
 
     private func load() -> [API.RAW.Location] {
-        
         let data = userDefaults.data(forKey: key)
         Logger.model.log(message: "Retrieving data", tagging: className)
         guard let data else { return [] }

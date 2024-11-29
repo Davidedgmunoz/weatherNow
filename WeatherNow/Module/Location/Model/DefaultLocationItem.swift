@@ -12,6 +12,7 @@ import OSLog
 
 public class DefaultLocationItem: Loadable, LocationItem, Equatable {
     
+    
     public static func == (lhs: DefaultLocationItem, rhs: DefaultLocationItem) -> Bool {
         lhs.id == rhs.id
     }
@@ -20,6 +21,8 @@ public class DefaultLocationItem: Loadable, LocationItem, Equatable {
     private let onSelect: ((DefaultLocationItem) -> Void)?
     private var raw: API.RAW.Location
     private let api: API.ClientsAPI.Weather?
+    public var isUserLocation: Bool { raw.isUsersLocation ?? false }
+
     init(
         raw: API.RAW.Location,
         api: API.ClientsAPI.Weather? = nil,

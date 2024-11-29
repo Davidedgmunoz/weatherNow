@@ -10,6 +10,7 @@ import Foundation
 public protocol Models: AnyObject {
     var location: LocationProtocol { get }
     var persistenceManger: LocationPersistenceManager { get }
+    var locationManager: LocationManager { get }
 }
 
 // MARK: - Defaults
@@ -22,6 +23,8 @@ public class DefaultModels: Models {
     }
     public var persistenceManger: any LocationPersistenceManager = UserDefaultsPersistenceManager()
 
+    public lazy var locationManager: any LocationManager = { DefaultLocationManager() }()
+    
     public lazy var location: any LocationProtocol = { Location(api: api, persistenceManager: persistenceManger) }()
 }
 

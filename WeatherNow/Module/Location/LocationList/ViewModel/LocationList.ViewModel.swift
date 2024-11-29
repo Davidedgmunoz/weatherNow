@@ -29,6 +29,8 @@ public extension LocationList {
         var weatherDescription: String { get }
         var weatherImage: String? { get }
         var isSelected: Bool { get }
+        var isUsersLocation: Bool { get }
+        
         func select()
     }
     
@@ -77,7 +79,8 @@ public extension LocationList {
                 update()
             }
             var isSelected: Bool { model.selected }
-            
+            var isUsersLocation: Bool { model.isUserLocation }
+
             func select() {
                 model.select()
             }
