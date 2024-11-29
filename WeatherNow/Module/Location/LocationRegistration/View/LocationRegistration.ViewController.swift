@@ -103,6 +103,7 @@ public extension LocationRegistration {
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
         }
+        
         // MARK: - View
         fileprivate class View: NiblessView {
             override init() {

@@ -11,6 +11,7 @@ public protocol Models: AnyObject {
     var location: LocationProtocol { get }
     var persistenceManger: LocationPersistenceManager { get }
     var locationManager: LocationManager { get }
+    var calendarManager: CalendarManager { get }
 }
 
 // MARK: - Defaults
@@ -23,9 +24,11 @@ public class DefaultModels: Models {
     }
     public var persistenceManger: any LocationPersistenceManager = UserDefaultsPersistenceManager()
 
-    public lazy var locationManager: any LocationManager = { DefaultLocationManager() }()
-    
     public lazy var location: any LocationProtocol = { Location(api: api, persistenceManager: persistenceManger) }()
+   
+    public lazy var locationManager: any LocationManager = { DefaultLocationManager() }()
+    public lazy var calendarManager: any CalendarManager = { DefaultCalendarManager() }()
+
 }
 
 // MARK: - Core

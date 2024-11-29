@@ -32,10 +32,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .receive(on: DispatchQueue.main)
             .sink {
                 guard location.state == .didSuccess else { return }
+                let models = Core.shared.models!
                 let viewController = WeatherDetails.ViewController(
                     viewModel: WeatherDetails.DefaultViewModel(
-                        model: Core.shared.models.location,
-                        locationManager: Core.shared.models.locationManager
+                        model: models.location,
+                        locationManager: models.locationManager,
+                        calendarManager: models.calendarManager
                     )
                 )
                 let navigation = UINavigationController(rootViewController: viewController)

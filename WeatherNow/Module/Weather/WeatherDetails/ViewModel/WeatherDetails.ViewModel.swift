@@ -14,23 +14,30 @@ public extension WeatherDetails {
     enum Action {
         case openList(LocationList.ViewModel)
         case presentNoLocationAddedView
+        case calendarEventAdded
+        case calendarEventFailed
     }
 
     protocol ViewModel: LoadableProxyProtocol {
         var headerViewModel: HeaderViewModel? { get }
         var forecastItems: [ForecastItemViewModel] { get }
         var actionPublisher: AnyPublisher<Action, Never> { get }
+        
         func openList()
+        func setEvents()
     }
     
     // MARK: - Default
     final class DefaultViewModel: LoadableProxy, ViewModel {
         let model: LocationProtocol
         let locationManager: LocationManager
+        private let calendarManager: CalendarManager
         init(
             model: LocationProtocol,
-            locationManager: LocationManager
+            locationManager: LocationManager,
+            calendarManager: CalendarManager
         ) {
+            self.calendarManager = calendarManager
             self.locationManager = locationManager
             self.model = model
             super.init()
@@ -66,6 +73,28 @@ public extension WeatherDetails {
             }
             super.doSync()
         }
+
+        // MARK: - Public
+        
+        public func openList() {
+            let viewModel = LocationList.DefaultViewModel(model: model)
+            actionSubject.send(.openList(viewModel))
+        }
+        
+        public func setEvents() {
+            calendarManager.addCalendarEvents()
+                .sink { [weak self] completion in
+                    switch completion {
+                    case .failure:
+                        self?.actionSubject.send(.calendarEventAdded)
+                    default:
+                        break
+                    }
+                } receiveValue: { [weak self] didSucceed in
+                    self?.actionSubject.send(didSucceed ? .calendarEventAdded : .calendarEventFailed)
+                }.store(in: &cancellables)
+        }
+
         // MARK: - Private
         
         private func handleLocations() {
@@ -104,13 +133,6 @@ public extension WeatherDetails {
             guard let currentLocation else { return }
             headerViewModel = DefaultHeaderViewModel(location: currentLocation)
             forecastItems = currentLocation.forecast.map { DefaultForecastItemViewModel(model: $0)}
-        }
-        
-        // MARK: - Public
-        
-        public func openList() {
-            let viewModel = LocationList.DefaultViewModel(model: model)
-            actionSubject.send(.openList(viewModel))
         }
     }
 }

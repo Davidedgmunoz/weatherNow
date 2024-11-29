@@ -19,7 +19,9 @@
 			</array>
 		</dict>
 	</dict>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need your location to show weather data for your area.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to show weather data for your area.</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>We need access to your calendar to add weather reminders.</string>
 </dict>
 </plist>

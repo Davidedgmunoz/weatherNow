@@ -54,7 +54,17 @@ public extension WeatherDetails {
                 navigationController?.pushViewController(vc, animated: true)
             case .presentNoLocationAddedView:
                 _view?.emptyView.isHidden = false
+            case .calendarEventAdded:
+                showAlert(title: "success".localized, message: "weatherDetails.calendarEventAdded".localized)
+            case .calendarEventFailed:
+                showAlert(title: "error".localized, message: "weatherDetails.calendarEventsFailed".localized)
             }
+        }
+        
+        private func showAlert(title: String, message: String) {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
         }
         private func updateUI() {
             guard viewModel.state != .syncing else { return }
@@ -87,13 +97,24 @@ public extension WeatherDetails {
                 image: UIImage(systemName: "list.bullet"),
                 style: .plain,
                 target: self,
-                action: #selector(didTapListButton)
+                action: #selector(listButtonTapped)
+            )
+            let calendarButton = UIBarButtonItem(
+                image: UIImage(systemName: "calendar.badge.plus"),
+                style: .plain,
+                target: self,
+                action: #selector(calendarButtonTapped)
             )
             navigationItem.rightBarButtonItem = listButton
+            navigationItem.leftBarButtonItem = calendarButton
         }
         
-        @objc private func didTapListButton() {
+        @objc private func listButtonTapped() {
             viewModel.openList()
+        }
+        
+        @objc private func calendarButtonTapped() {
+            viewModel.setEvents()
         }
         
         // MARK: - View
