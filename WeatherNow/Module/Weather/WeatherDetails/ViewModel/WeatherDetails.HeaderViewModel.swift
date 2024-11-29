@@ -15,6 +15,7 @@ public extension WeatherDetails {
         var iconURL: URL? { get }
         var temperature: String { get }
         var description: String { get }
+        var isUserLocation: Bool { get }
 
         var windSpeed: String { get }
         var humidity: String { get }
@@ -22,7 +23,7 @@ public extension WeatherDetails {
     }
     
     final class DefaultHeaderViewModel: LoadableProxy, HeaderViewModel {
-        public var title: String = "--"
+        public var title: String { location.name }
         public var updateDate: String = "--"
         public var iconURL: URL?
         public var temperature: String = "--"
@@ -30,7 +31,7 @@ public extension WeatherDetails {
         public var windSpeed: String = "--"
         public var humidity: String = "--"
         public var visibility: String = "--"
-        
+        public var isUserLocation: Bool { location.isUserLocation}
         let location: LocationItem
         init(location: LocationItem) {
             self.location = location
@@ -55,7 +56,6 @@ public extension WeatherDetails {
             guard let weather = location.weather else {
                 return
             }
-            title = location.name
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM dd, HH:mm"
             updateDate = "Last update:" + dateFormatter.string(from: weather.updatedAt)

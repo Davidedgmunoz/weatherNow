@@ -71,7 +71,18 @@ public extension WeatherDetails {
         private func updateUI() {
             guard let viewModel else { return }
             updateLabel.text = viewModel.updateDate
-            titleLabel.text = viewModel.title
+            if viewModel.isUserLocation {
+                let text = viewModel.title
+                let attachment = NSTextAttachment()
+                attachment.image = UIImage(systemName: "location.circle.fill")
+                attachment.bounds = CGRect(x: 0, y: -2, width: 20, height: 20)
+                let attributedString = NSMutableAttributedString(string: text)
+                let iconString = NSAttributedString(attachment: attachment)
+                attributedString.append(iconString)
+                titleLabel.attributedText = attributedString
+            } else {
+                titleLabel.text = viewModel.title
+            }
             temperatureView.label.text = viewModel.temperature
             descriptionLabel.text = viewModel.description
             guard let imageURL = viewModel.iconURL else { return }
