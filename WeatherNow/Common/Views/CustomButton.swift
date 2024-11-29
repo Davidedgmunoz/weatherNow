@@ -17,7 +17,7 @@ class CustomButton: Button {
         _backgroundColor = Colors.buttonBackgroundColor
         super.init()
         layer.cornerRadius = Sizes.regularCornerRadius
-        layer.borderColor = UIColor.systemBlue.cgColor
+        layer.borderColor = UIColor.orange.cgColor
         backgroundColor = _backgroundColor
         setTitleColor(Colors.buttonTextColor, for: .normal)
         layer.borderWidth = 1

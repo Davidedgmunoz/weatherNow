@@ -41,7 +41,7 @@ public extension LocationList {
                 $0.lineBreakMode = .byWordWrapping
                 $0.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
             }
-        layer.cornerRadius = 8
+            layer.cornerRadius = 8
             updateUI()
         }
         

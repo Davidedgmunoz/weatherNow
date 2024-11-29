@@ -11,10 +11,15 @@ import Loadable
 import OSLog
 
 public extension WeatherDetails {
+    enum Action {
+        case openList(LocationList.ViewModel)
+        case presentNoLocationAddedView
+    }
+
     protocol ViewModel: LoadableProxyProtocol {
         var headerViewModel: HeaderViewModel? { get }
         var forecastItems: [ForecastItemViewModel] { get }
-        
+        var actionPublisher: AnyPublisher<Action, Never> { get }
         func openList()
     }
     
@@ -26,6 +31,10 @@ public extension WeatherDetails {
             super.init()
             updateLocation()
         }
+        public var actionPublisher: AnyPublisher<Action, Never> {
+            actionSubject.eraseToAnyPublisher()
+        }
+        let actionSubject = PassthroughSubject<Action, Never>()
 
         public var forecastItems: [any ForecastItemViewModel] = []
         public var headerViewModel: (any HeaderViewModel)?
@@ -39,6 +48,13 @@ public extension WeatherDetails {
         
         public override func doSync() {
             updateLocation()
+            // For this case we have an special case that shouldn't happening
+            // but for the logic that I decided to present,
+            // we must verify if we don't have any location yet!
+            guard currentLocation != nil else {
+                actionSubject.send(.presentNoLocationAddedView)
+                return
+            }
             super.doSync()
         }
         // MARK: - Private
@@ -70,6 +86,8 @@ public extension WeatherDetails {
         // MARK: - Public
         
         public func openList() {
+            let viewModel = LocationList.DefaultViewModel(model: model)
+            actionSubject.send(.openList(viewModel))
         }
     }
 }

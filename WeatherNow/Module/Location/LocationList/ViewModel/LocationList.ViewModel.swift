@@ -53,6 +53,7 @@ public extension LocationList {
         }
 
         public override func proxyDidChange() {
+            guard model.locations.count != items.count else { return }
             populate()
         }
 
@@ -73,6 +74,7 @@ public extension LocationList {
                 self.model = model
                 super.init()
                 loadable = model
+                update()
             }
             var isSelected: Bool { model.selected }
             
@@ -81,11 +83,15 @@ public extension LocationList {
             }
 
             override func proxyDidChange() {
+                update()
+            }
+            private func update() {
                 guard let weather = model.weather else { return }
                 temperature = String(format: "locationItem.temperature.format".localized, weather.temperature)
                 weatherImage = weather.iconUrl
                 realFeel = String(format: "locationItem.feelsLike.format".localized, weather.feelsLike)
                 weatherDescription = String(format: "locationItem.weatherDescription.format".localized, weather.current.description)
+
             }
         }
     }

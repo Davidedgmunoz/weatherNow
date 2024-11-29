@@ -31,8 +31,14 @@ public extension WeatherDetails {
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] in self?.updateUI() }
                 .store(in: &cancellables)
+            viewModel.actionPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] in self?.handleAction($0) }
+                .store(in: &cancellables)
             _view?.tableView.dataSource = self
             _view?.tableView.delegate = self
+            
+            _view?.emptyView.takeMeThere = { [weak self] in self?.viewModel.openList() }
         }
 
         public override func viewWillAppear(_ animated: Bool) {
@@ -41,7 +47,18 @@ public extension WeatherDetails {
             viewModel.doSync()
         }
 
+        private func handleAction(_ action: Action) {
+            switch action {
+            case .openList(let viewModel):
+                let vc = LocationList.ViewController(viewModel: viewModel)
+                navigationController?.pushViewController(vc, animated: true)
+            case .presentNoLocationAddedView:
+                _view?.emptyView.isHidden = false
+            }
+        }
         private func updateUI() {
+            guard viewModel.state != .syncing else { return }
+            _view?.emptyView.isHidden = true
             _view?.headerView.viewModel = viewModel.headerViewModel
             _view?.tableView.reloadData()
         }
@@ -66,39 +83,38 @@ public extension WeatherDetails {
         }
 
         private func setupNavigationBarButton() {
-            // Create the bar button item
             let listButton = UIBarButtonItem(
                 image: UIImage(systemName: "list.bullet"),
                 style: .plain,
                 target: self,
                 action: #selector(didTapListButton)
             )
-            
-            // Add the button to the navigation bar's right side
             navigationItem.rightBarButtonItem = listButton
         }
         
         @objc private func didTapListButton() {
-            let vc = LocationList.ViewController(
-                viewModel: LocationList.DefaultViewModel(model: Core.shared.models.location)
-            )
-            navigationController?.show(vc, sender: self)
+            viewModel.openList()
         }
-
         
         // MARK: - View
 
         fileprivate class _View: NiblessView {
             override init() {
                 super.init()
+                
+                translatesAutoresizingMaskIntoConstraints = true
                 backgroundColor = Colors.backgroundColor
+                emptyView.isHidden = true
+                titleLabel.text = "weatherDetails.title".localized
+
                 addSubview(headerView)
                 addSubview(titleLabel)
-                titleLabel.text = "Forecast for next days!"
                 addSubview(tableView)
-                translatesAutoresizingMaskIntoConstraints = true
+                addSubview(emptyView)
+
             }
             
+            fileprivate var emptyView: EmptyView = .init()
             private let titleLabel: CustomLabel = .init(style: .title)
             fileprivate let headerView: HeaderView = .init()
             let tableView: UITableView = {
@@ -121,6 +137,11 @@ public extension WeatherDetails {
                 super.updateConstraints()
                 
                 NSLayoutConstraint.activate([
+                    emptyView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                    emptyView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+                    emptyView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                    emptyView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+                    
                     headerView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
                     headerView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
                     headerView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),

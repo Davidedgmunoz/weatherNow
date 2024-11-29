@@ -65,7 +65,7 @@ extension API {
 
         public func getLocation(fromLat lat: Double, andLon lon: Double) async throws -> [API.RAW.Location] {
             return try await httpClient.get(
-                url: urlWithPath("geo/1.0/revers"),
+                url: urlWithPath("geo/1.0/reverse"),
                 queryParams: [
                     "lat":"\(lat)",
                     "lon":"\(lon)",

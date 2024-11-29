@@ -106,7 +106,7 @@ public extension LocationList {
         
         public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
             let viewModel = self.viewModel.items[indexPath.row]
-            viewModel.doSync()
+            viewModel.syncIfNeeded()
         }
         
         func updateCellSize(for cell: UITableViewCell) {
