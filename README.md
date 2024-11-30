@@ -131,3 +131,9 @@ This dependency abstracts the common tasks associated with managing models and v
 
 
 
+## Known Issues
+
+Below are the current known issues or limitations in the WeatherNow project. These are actively being tracked and will be addressed in future updates:
+
+1. **StackView + labels contraints complaining**
+    - The project currently uses several `UILabel` instances embedded inside `UIStackView`. When a `UILabel` increases in size, the `UIStackView` struggles to recalculate its fitting size, causing constraint warnings. Despite this, the layout functions correctly, so this issue has not been addressed yet.
