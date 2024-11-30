@@ -170,7 +170,7 @@ public extension LocationRegistration {
             }()
 
             lazy var buttonStackView: UIStackView = {
-                let stackView = UIStackView(arrangedSubviews: [cancelButton, searchButton])
+                let stackView = UIStackView(arrangedSubviews: [cancelButton, registerButton])
                 stackView.axis = .horizontal
                 stackView.distribution = .fillEqually
                 stackView.translatesAutoresizingMaskIntoConstraints = false

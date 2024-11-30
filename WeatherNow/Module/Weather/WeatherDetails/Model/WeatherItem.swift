@@ -8,9 +8,6 @@
 import Foundation
 
 public class BaseWeather: WeatherItem {
-    public static func == (lhs: BaseWeather, rhs: BaseWeather) -> Bool {
-        lhs.raw.weather.first?.id == rhs.raw.weather.first?.id
-    }
     public var current: String { raw.weather.first?.description ?? "" }
     public var temperature: String { "\(raw.main.temp)" }
     public var humidity: String { "\(raw.main.humidity)" }

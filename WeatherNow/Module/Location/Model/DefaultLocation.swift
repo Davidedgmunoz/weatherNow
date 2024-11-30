@@ -35,7 +35,7 @@ public final class Location: Loadable, LocationProtocol {
     
     // we just load locations when they are empty
     // otherwise we can handle them in memory
-    public override var needsSync: Bool { persistenceManager.items.isEmpty }
+    public override var needsSync: Bool { _locations.isEmpty }
     
     private var cancellable: AnyCancellable?
     public override func doSync() {

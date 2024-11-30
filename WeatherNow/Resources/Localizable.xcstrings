@@ -249,7 +249,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Feels like: %@ %@, Humidity: %@%%"
+            "value" : "Feels like: %@°C %@, Humidity: %@%%"
           }
         }
       }

@@ -12,7 +12,6 @@ import OSLog
 
 public class DefaultLocationItem: Loadable, LocationItem, Equatable {
     
-    
     public static func == (lhs: DefaultLocationItem, rhs: DefaultLocationItem) -> Bool {
         lhs.id == rhs.id
     }

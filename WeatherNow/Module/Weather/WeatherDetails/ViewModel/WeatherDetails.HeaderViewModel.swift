@@ -59,7 +59,7 @@ public extension WeatherDetails {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM dd, HH:mm"
             updateDate = "Last update:" + dateFormatter.string(from: weather.updatedAt)
-            temperature = weather.temperature
+            temperature = weather.temperature + "°C"
             description = String(
                 format: "weatherDetails.descriptionFormat".localized,
                 weather.feelsLike, weather.description?.capitalizeFirstLetter() ?? "", weather.humidity
