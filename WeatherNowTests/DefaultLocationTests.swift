@@ -11,12 +11,15 @@ import Loadable
 import Foundation
 
 struct DefaultLocationTests {
-    let mockAPI = MockAPI()
-    let mockNotificationManager = MockNotificationManager()
-    let mockPersistenceManager = MockLocationPersistenceManager()
+    let mockAPI: MockAPI!
+    let mockNotificationManager: MockNotificationManager!
+    let mockPersistenceManager: MockLocationPersistenceManager!
     let classUnderTest: Location!
     
     init() {
+        mockAPI = MockAPI()
+        mockNotificationManager = MockNotificationManager()
+        mockPersistenceManager = MockLocationPersistenceManager()
         classUnderTest = Location(
             api: mockAPI,
             notificationManager: mockNotificationManager,
@@ -37,6 +40,23 @@ struct DefaultLocationTests {
         #expect(!classUnderTest.needsSync)
         #expect(classUnderTest.locations.count == 1)
     }
+    
+    @Test("Test find location")
+    func testFindLocationTests() async {
+        #expect(classUnderTest.locations.isEmpty)
+        let result = await classUnderTest.findLocation(latitude: 33, longitude: 33)
+        #expect(result != nil)
+        #expect(classUnderTest.locations.isEmpty)
+    }
+    
+    @Test("Test save first location, should select it")
+    func testsSaveFirstLocationTests() async {
+        let result = await classUnderTest.findLocation(latitude: 33, longitude: 33)
+        #expect(classUnderTest.locations.isEmpty)
+        result!.save()
+        #expect(classUnderTest.locations.first!.selected)
+    }
+
 }
 
 
@@ -68,7 +88,9 @@ class MockLocationPersistenceManager: TestLoadable, LocationPersistenceManager {
 }
 
 class MockAPI: API_ClientsAPI_Location & API_ClientsAPI_Weather {
+    var getLocationCalled: Bool = false
     func getLocation(fromLat lat: Double, andLon lon: Double) async throws -> [API.RAW.Location] {
+        
         return [Raws.locationResponse]
     }
     
@@ -79,5 +101,4 @@ class MockAPI: API_ClientsAPI_Location & API_ClientsAPI_Weather {
     func getForecast(forLat lat: Double, andLon lon: Double) async throws -> API.RAW.ForecastResponse {
         return Raws.forecastResponse
     }
-    
 }
