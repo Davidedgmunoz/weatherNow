@@ -118,7 +118,10 @@ public final class Location: Loadable, LocationProtocol {
                 } else {
                     self._locations.append(item)
                 }
-                
+                if self._locations.count == 1 {
+                    item.select()
+                }
+
                 self.persistenceManager.save(raw)
                 notifyDataDidChanged()
             },
