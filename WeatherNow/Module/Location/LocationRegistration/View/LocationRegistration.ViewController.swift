@@ -26,6 +26,7 @@ public extension LocationRegistration {
             guard let _view else { return }
             _view.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
             _view.registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
+            _view.cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
             
             _view.latitudeTextField.textPublisher
                 .merge(with: _view.longitudeTextField.textPublisher)
@@ -88,6 +89,10 @@ public extension LocationRegistration {
         @objc private func registerButtonTapped() {
             viewModel.save()
         }
+        
+        @objc private func cancelButtonTapped() {
+            dismiss(animated: true)
+        }
 
         private func handleAction(_ action: Action) {
             switch action {
@@ -120,7 +125,7 @@ public extension LocationRegistration {
                 // Add the stack view to the scroll view
                 scrollView.addSubview(stackView)
                 addSubview(scrollView)
-                addSubview(registerButton)
+                addSubview(buttonStackView)
                 backgroundColor = Colors.backgroundColor
             }
             
@@ -164,6 +169,21 @@ public extension LocationRegistration {
                 return label
             }()
 
+            lazy var buttonStackView: UIStackView = {
+                let stackView = UIStackView(arrangedSubviews: [cancelButton, searchButton])
+                stackView.axis = .horizontal
+                stackView.distribution = .fillEqually
+                stackView.translatesAutoresizingMaskIntoConstraints = false
+                stackView.spacing = 16
+                return stackView
+            }()
+            
+            let cancelButton: CustomButton = {
+                let button = CustomButton()
+                button.setTitle("locationRegistration.Cancel".localized, for: .normal)
+                return button
+            }()
+            
             let registerButton: CustomButton = {
                 let button = CustomButton()
                 button.setTitle("locationRegistration.RegisterLocation".localized, for: .normal)
@@ -197,13 +217,13 @@ public extension LocationRegistration {
                     scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
                     scrollView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
                     scrollView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-                    scrollView.bottomAnchor.constraint(equalTo: registerButton.topAnchor, constant: -spacing),
+                    scrollView.bottomAnchor.constraint(equalTo: buttonStackView.topAnchor, constant: -spacing),
 
                     // Register button
-                    registerButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-                    registerButton.heightAnchor.constraint(equalToConstant: heights),
-                    registerButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: spacing),
-                    registerButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -spacing),
+                    buttonStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+                    buttonStackView.heightAnchor.constraint(equalToConstant: heights),
+                    buttonStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: spacing),
+                    buttonStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -spacing),
                     cityNameTextField.heightAnchor.constraint(equalToConstant: heights),
                     latitudeTextField.heightAnchor.constraint(equalToConstant: heights),
                     longitudeTextField.heightAnchor.constraint(equalToConstant: heights),

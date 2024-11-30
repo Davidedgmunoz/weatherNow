@@ -111,6 +111,17 @@
         }
       }
     },
+    "locationRegistration.Cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
     "locationRegistration.CityName" : {
       "extractionState" : "manual",
       "localizations" : {
