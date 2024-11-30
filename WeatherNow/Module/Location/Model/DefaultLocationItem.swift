@@ -22,13 +22,15 @@ public class DefaultLocationItem: Loadable, LocationItem, Equatable {
     private var raw: API.RAW.Location
     private let api: API.ClientsAPI.Weather?
     public var isUserLocation: Bool { raw.isUsersLocation ?? false }
-
+    private var notificationManager: NotificationsManager?
     init(
+        notificationManager: NotificationsManager?,
         raw: API.RAW.Location,
         api: API.ClientsAPI.Weather? = nil,
         onSave: ((DefaultLocationItem) -> Void)? = nil,
         onSelect: ((DefaultLocationItem) -> Void)? = nil
     ) {
+        self.notificationManager = notificationManager
         self.api = api
         self.raw = raw
         self.onSave = onSave
@@ -44,7 +46,15 @@ public class DefaultLocationItem: Loadable, LocationItem, Equatable {
             }
         }
     }
-    public var weather: (any WeatherItem)?
+    public var weather: (any WeatherItem)? {
+        didSet {
+            if let oldValue, let weather,
+               oldValue.current != weather.current
+            {
+                sendNotificationOfWeatherChange()
+            }
+        }
+    }
     public var forecast: [(any WeatherItem)] = []
     public var id: String { raw.id }
     public var name: String { raw.name }
@@ -97,6 +107,16 @@ public class DefaultLocationItem: Loadable, LocationItem, Equatable {
         selected = false
     }
     
+    private func sendNotificationOfWeatherChange() {
+        let description = weather?.description ?? ""
+        let temperature = weather?.temperature ?? ""
+        let feelsLike = weather?.feelsLike ?? ""
+        notificationManager?.scheduleImmediateNotification(
+            title: .init(format: "weatherNotification.titleFormat".localized, name),
+            body: .init(format: "weatherNotification.messageFormat".localized, description, temperature, feelsLike)
+        )
+    }
+
     // MARK: - Publics
     
     public func select() {

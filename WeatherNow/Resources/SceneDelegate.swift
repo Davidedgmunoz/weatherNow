@@ -26,13 +26,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // but to keep it simple and avoid over-engineering (probably more than I already am),
         // I will load it here and then display the screen.
         // Since it’s in memory, it likely won’t take more than a glimpse of a second.
-        let location = Core.shared.models.location
         
+        let models = Core.shared.models!
+        let location = models.location
+        
+        // Lets ask notification permission upfront!
+        models.notificationManager.requestAuthorization(completion: { _ in})
         cancellable = location.objectWillChange
             .receive(on: DispatchQueue.main)
             .sink {
                 guard location.state == .didSuccess else { return }
-                let models = Core.shared.models!
                 let viewController = WeatherDetails.ViewController(
                     viewModel: WeatherDetails.DefaultViewModel(
                         model: models.location,

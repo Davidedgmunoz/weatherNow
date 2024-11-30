@@ -275,6 +275,28 @@
           }
         }
       }
+    },
+    "weatherNotification.messageFormat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now the weather is %@ and with a temperature of: %@ °C feels like: %@ °C"
+          }
+        }
+      }
+    },
+    "weatherNotification.titleFormat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Weather of %@ changed!"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

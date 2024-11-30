@@ -7,7 +7,11 @@
 
 import Foundation
 public class ForecastWeather: WeatherItem {
-    public var current: String = ""
+    public static func == (lhs: ForecastWeather, rhs: ForecastWeather) -> Bool {
+        lhs.raw.weather.first?.id == rhs.raw.weather.first?.id
+    }
+
+    public var current: String  { raw.weather.first?.description ?? "" }
     public var temperature: String = ""
     public var humidity: String = ""
     public var feelsLike: String = ""

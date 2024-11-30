@@ -30,8 +30,8 @@ public extension WeatherDetails {
             )
         }
         public var weatherDescription: String { model.description ?? ""}
-        let model: WeatherItem
-        init(model: WeatherItem) {
+        let model: any WeatherItem
+        init(model: any WeatherItem) {
             self.model = model
             
         }

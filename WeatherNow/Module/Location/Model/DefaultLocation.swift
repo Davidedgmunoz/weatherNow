@@ -13,10 +13,13 @@ import OSLog
 public final class Location: Loadable, LocationProtocol {
     private let api: API.ClientsAPI.Location&API.ClientsAPI.Weather
     private let persistenceManager: LocationPersistenceManager
+    private let notificationManager: NotificationsManager
     init(
         api: API.ClientsAPI.Location&API.ClientsAPI.Weather,
+        notificationManager: NotificationsManager,
         persistenceManager: LocationPersistenceManager
     ) {
+        self.notificationManager = notificationManager
         self.persistenceManager = persistenceManager
         self.api = api
     }
@@ -50,7 +53,10 @@ public final class Location: Loadable, LocationProtocol {
     
     private func locationsUpdated() {
         guard persistenceManager.state == .didSuccess else { return }
-        _locations = persistenceManager.items.map { DefaultLocationItem(raw: $0, api: api, onSelect: onSelect) }
+        _locations = persistenceManager.items.map { DefaultLocationItem(
+            notificationManager: notificationManager,
+            raw: $0, api: api, onSelect: onSelect
+        ) }
         
         if let selected = selectedItem,
            let matchingItem = _locations.first(where: { $0.id == selected.id }) {
@@ -95,6 +101,7 @@ public final class Location: Loadable, LocationProtocol {
         let result = try await api.getLocation(fromLat: latitude, andLon: longitude)
         guard var raw = result.first else { return nil }
         return DefaultLocationItem(
+            notificationManager: nil,
             raw: raw,
             api: api,
             onSave: { [weak self] item in
